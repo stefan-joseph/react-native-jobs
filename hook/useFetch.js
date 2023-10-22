@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { RAPID_API_KEY } from "@env";
-
-const rapidApiKey = RAPID_API_KEY;
+// import { RAPID_API_KEY } from "@env";
+import Config from "react-native-config";
 
 const useFetch = (endpoint, query) => {
+  console.log("Config.RAPID_API_KEY", Config.RAPID_API_KEY);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -16,7 +16,8 @@ const useFetch = (endpoint, query) => {
       ...query,
     },
     headers: {
-      "X-RapidAPI-Key": rapidApiKey,
+      "X-RapidAPI-Key": Config.RAPID_API_KEY,
+      // "X-RapidAPI-Key": "",
       "X-RapidAPI-Host": "jsearch.p.rapidapi.com",
     },
   };
@@ -27,7 +28,7 @@ const useFetch = (endpoint, query) => {
       const response = await axios.request(options);
 
       setData(response.data.data);
-      setIsLoading(false);
+      // setIsLoading(false);
     } catch (error) {
       setError(error);
       alert("There is an error");
@@ -47,3 +48,5 @@ const useFetch = (endpoint, query) => {
 
   return { data, isLoading, error, refetch };
 };
+
+export default useFetch;
